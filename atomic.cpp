@@ -5,7 +5,7 @@
 
 using namespace std;
 
-atomic<int> count = 0;
+atomic<int> count(0);
 
 
 void *thread_routine(void *args){
@@ -28,6 +28,14 @@ timespec diff(timespec start, timespec end)
     return temp;
 }
 
+void displayTimespec(const timespec &ts){
+
+    double nsec2sec = (double)ts.tv_nsec / 1e9;
+
+    cout << (double)ts.tv_sec + nsec2sec << " seconds" << endl;
+}
+
+
 int main(){
     struct timespec time1, time2;
 
@@ -45,7 +53,7 @@ int main(){
     
 
     clock_gettime(CLOCK_REALTIME, &time2);
-    cout<<diff(time1,time2).tv_sec<<":"<<diff(time1,time2).tv_nsec<<endl;
+    displayTimespec(diff(time1,time2));
     cout << count << endl;
     return 0;
 }
